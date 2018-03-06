@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+
+  # ドキュメントを生成する HUGO が動いているコンテナ
+  docs:
+    container_name: docs
+    build: ./server/docs
+    env_file: .env
+    ports:
+      - "${PREVIEW_SERVER_PORT}:1313"
+    volumes:
+      - ./hugo:/usr/local/docs

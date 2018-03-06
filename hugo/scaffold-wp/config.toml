@@ -1,7 +1,7 @@
 baseURL = "http://localhost/"
 languageCode = "ja"
 title = "Docs"
-theme = "docs"
+theme = "default"
 
 [outputs]
 home = [ "HTML", "RSS", "JSON"]

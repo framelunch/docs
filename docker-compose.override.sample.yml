@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+
+  docs:
+    volumes:
+      - ./hugo:/usr/local/docs  
+      # --- ビルド先を指定していく(自分の環境に合わせる) ---
+      - ../fl/scaffold-wordpress/docs:/usr/local/docs/scaffold-wp/public

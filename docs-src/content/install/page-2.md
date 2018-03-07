@@ -21,7 +21,9 @@ weight = 20
 このファイルの最下部に例に倣って追記します。  
 こんな感じです。
 
-`- ../your/sample/project/docs-src:/usr/local/docs/sample`
+```yaml
+      - ../your/sample/project/docs-src:/usr/local/docs/sample
+```
 
 {{% notice note %}}
 「**:**」で区切って、  
@@ -34,12 +36,15 @@ weight = 20
 ## 3. 静的サイトのビルド先を指定しましょう
 公開されるドキュメントのWebRootをビルド先を指定します。   
 
-`- ../your/sample/project/docs:/usr/local/docs/sample/public`
+```yaml
+      - type: bind
+        source: ../your/sample/project/docs
+        target: /usr/local/docs/sample/public
+```
 
 {{% notice note %}}
-「**:**」で区切って、  
-左辺は **静的サイトのWeb Rootパス**  
-右辺は 「**/usr/local/docs/プロジェクトID/public**」
+**source**: **静的サイトのWeb Rootパス**  
+**target**: **/usr/local/docs/プロジェクトID/public**
 {{% /notice %}}
 
 ## 編集したソースの全体図
@@ -53,10 +58,14 @@ services:
       # --- ビルド先と作業ディレクトリを指定していく(自分の環境に合わせる) ---
       # docs
       - ./docs-src:/usr/local/docs/docs
-      - ./docs:/usr/local/docs/docs/public
+      - type: bind
+        source: ./docs
+        target: /usr/local/docs/docs/public
       
       # ======= 以降 追記した部分です =======
       # sample
       - ../your/sample/project/docs-src:/usr/local/docs/sample
-      - ../your/sample/project/docs:/usr/local/docs/sample/public
+      - type: bind
+        source: ../your/sample/project/docs
+        target: /usr/local/docs/sample/public
 ```

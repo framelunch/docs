@@ -151,7 +151,6 @@ $RECYCLE.BIN/
 /.cache-loader
 /.idea
 /flow-typed
-.docker-compose.override.yml
 
-public/
 docker-compose.override.yml
+public/

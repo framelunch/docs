@@ -49,7 +49,7 @@ title = "Top"
 全てこの「**content**」ディレクトリに配置します
 {{% /notice %}}
 
-## 2. サーバー上で確認しながらコンテンツを充実させましょう
+## 3. サーバー上で確認しながらコンテンツを充実させましょう
 
 下記のコマンドで簡易的なWebサーバーを立ち上げて  
 [http://localhost:1313](http://localhost:1313) にアクセスしましょう
@@ -58,11 +58,23 @@ title = "Top"
 PROJECT_ID=sample
 docs preview $PROJECT_ID
 ```
-
 HELLO WORLD できたでしょうか？  
-**_index.md** を編集して、ファイルを保存してみてください。  
+
+{{% notice info %}}
+**_index.md** をさらに編集して、ファイルを保存してみてください。  
 親切にも Auto Reload 機能が付いているので  
 快適に編集できますね。
+{{% /notice %}}
+
+## 4. 静的サイトをビルドしましょう
+
+```bash
+PROJECT_ID=sample
+docs build $PROJECT_ID
+```
+
+成功すると[先ほど]({{% ref "/install/page-2.md#3-静的サイトのビルド先を指定しましょう" %}})指定したWebRootにビルドされているはずです。
+
 
 ## もっと知りたい人は
 [HUGO]({{% ref "/tools/page-1.md" %}}) や [利用しているテーマ]({{% ref "/tools/page-2.md" %}}) についての情報をここにまとめていきます。  

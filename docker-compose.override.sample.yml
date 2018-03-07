@@ -7,4 +7,6 @@ services:
       # --- ビルド先と作業ディレクトリを指定していく(自分の環境に合わせる) ---
       # docs
       - ./docs-src:/usr/local/docs/docs
-      - ./docs:/usr/local/docs/docs/public
+      - type: bind
+        source: ./docs
+        target: /usr/local/docs/docs/public

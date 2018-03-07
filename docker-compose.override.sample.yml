@@ -1,11 +1,14 @@
-version: "3"
+version: "3.5"
 
 services:
 
   docs:
     volumes:
-      - ./hugo/common-themes:/usr/local/docs/common-themes
-      - ./hugo/default-config.toml:/usr/local/docs/default-config.toml
-      # --- ビルド先とコーディング先を指定していく(自分の環境に合わせる) ---
-      - ./docs:/usr/local/docs/docs/public
-      - ./docs-src:/usr/local/docs/docs/content
+      # --- ビルド先と作業ディレクトリを指定していく(自分の環境に合わせる) ---
+      # docs
+      - type: bind
+        source: ./docs-src
+        target: /usr/local/docs/docs
+      - type: bind
+        source: ./docs
+        target: /usr/local/docs/docs/public

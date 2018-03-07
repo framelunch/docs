@@ -8,7 +8,6 @@ title = "Docs Builder"
 ---
 
 ## Outline
-aaaupdate
 ドキュメントを作る際に  
 Localに静的サイトジェネレータが欲しかったからHUGOで作ってみた。  
 GitHubにデプロイすることとかは考えていません。  
@@ -27,7 +26,7 @@ GitHubにデプロイすることとかは考えていません。
 
 
 
-
+D23523
 
 
 

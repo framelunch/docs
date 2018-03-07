@@ -1,21 +1,62 @@
 +++
 date = "2018-03-06T02:24:46Z"
-title = "ENV Configure"
-menuTitle = "ENV Configure"
+title = "Docsを配置する準備"
+menuTitle = "Docsを配置する準備"
 weight = 20
 +++
 
-## 環境設定ファイル「.env」の作成
-## 1. 「.env.sample」をコピーしましょう
-```bash
-PROJECT_DIR=あなたのプロジェクトディレクトリ
-cd $PROJECT_DIR
+早速、サンプルプロジェクトのドキュメントを作成する流れを説明します。  
+まずは「どこにドキュメントを配置するのか」を設定しましょう。
 
-cp -f .env.sample .env
+--- 
+
+## 1. プロジェクトのIDを決めましょう
+今回のプロジェクトIDは「 **sample** 」とします  
+(どこかに sample というプロジェクトディレクトリを作っておいてください)
+
+## 2. MarkDownファイル等を配置する場所を指定しましょう
+記述するファイルは、[先ほど]({{% ref "/install/page-1.md#3-docker-compose-override-yml-を作りましょう" %}})コピーした
+**docker-compose.override.yml** ファイルです。  
+
+このファイルの最下部に例に倣って追記します。  
+こんな感じです。
+
+`- ../your/sample/project/docs-src:/usr/local/docs/sample`
+
+{{% notice note %}}
+「**:**」で区切って、  
+左辺は **Host(Mac)のMarkDownファイル等を配置するパス**  
+右辺は 「**/usr/local/docs/プロジェクトID**」
+{{% /notice %}}
+
+
+
+## 3. 静的サイトのビルド先を指定しましょう
+公開されるドキュメントのWebRootをビルド先を指定します。   
+
+`- ../your/sample/project/docs:/usr/local/docs/sample/public`
+
+{{% notice note %}}
+「**:**」で区切って、  
+左辺は **静的サイトのWeb Rootパス**  
+右辺は 「**/usr/local/docs/プロジェクトID/public**」
+{{% /notice %}}
+
+## 編集したソースの全体図
+```yaml
+version: "3.5"
+
+services:
+
+  docs:
+    volumes:
+      # --- ビルド先と作業ディレクトリを指定していく(自分の環境に合わせる) ---
+      # docs
+      - ./docs-src:/usr/local/docs/docs
+      - ./docs:/usr/local/docs/docs/public
+      
+      # ======= 以降 追記した部分です =======
+      # sample
+      - ../your/sample/project/docs-src:/usr/local/docs/sample
+      - ../your/sample/project/docs:/usr/local/docs/sample/public
 ```
-
-> 環境設定ファイルでは、Webサーバーの利用する **PORTの変更** や  
-> **DBの設定** 等を変更できますが、特に理由がなければ変更しなくて良いでしょう。  
-> 次のページに進んでOKです。
-
-**[環境設定ファイルの詳細な設定はこちら](/reference/page-1/)**

@@ -5,7 +5,6 @@ menuTitle = "learn"
 weight = 20
 +++
 ## Links
-記事を書く時によく見るリンクとか  
-小技とか追記していく
-### [HP](https://learn.netlify.com/en/)
-
+記事を書く時によく見るリンクとか追記していく
+### [素敵Notice](https://learn.netlify.com/en/shortcodes/notice/)
+### [感動Chart](https://learn.netlify.com/en/shortcodes/mermaid/)

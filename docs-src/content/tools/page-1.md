@@ -10,4 +10,3 @@ weight = 10
 ### [CONFIGの編集](https://gohugo.io/getting-started/configuration/)
 **各プロジェクトの config.toml を編集する**
 ### [記法: Short Code](https://gohugo.io/content-management/shortcodes/)
-

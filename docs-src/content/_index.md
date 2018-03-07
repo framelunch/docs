@@ -10,34 +10,14 @@ title = "Docs Builder"
 ## Outline
 ドキュメントを作る際に  
 Localに静的サイトジェネレータが欲しかったからHUGOで作ってみた。  
+LocalにインストールはしたくないからDockerで。  
 GitHubにデプロイすることとかは考えていません。  
-*やりたいときは[こうやって](https://gohugo.io/hosting-and-deployment/hosting-on-github/)やるみたい*
+(*やりたいときは[こうやって](https://gohugo.io/hosting-and-deployment/hosting-on-github/)やるみたい*)
 
 ---
 
-## [Getting Started.]({{% ref "/install/_index.md" %}})
-### [インストール](/install/page-1/)
+## 1. [Getting Started.]({{% ref "/install/_index.md" %}})
 
 ---
-
 ## [このドキュメントについて]({{% ref "/tools/_index.md" %}})
-### SITE GENERATOR: **[HUGO]({{% ref "/tools/page-1.md" %}})**
-### THEME: **[learn]({{% ref "/tools/page-2.md" %}})**
-
-
-
-D23523
-
-
-
-
-
-
-
-
-
-
-
-
-
 

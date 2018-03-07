@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Docs Builder on Docs</title>
-    <link>http://localhost/</link>
+    <link>https://framelunch.github.io/docs/</link>
     <description>Recent content in Docs Builder on Docs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Tue, 06 Mar 2018 02:24:46 +0000</lastBuildDate>
     
-	<atom:link href="http://localhost/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://framelunch.github.io/docs/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>HUGO</title>
-      <link>http://localhost/tools/page-1/</link>
+      <link>https://framelunch.github.io/docs/tools/page-1/</link>
       <pubDate>Tue, 06 Mar 2018 02:24:46 +0000</pubDate>
       
-      <guid>http://localhost/tools/page-1/</guid>
+      <guid>https://framelunch.github.io/docs/tools/page-1/</guid>
       <description> Links 記事を書く時によく見るリンクとか
 小技とか追記していく
 CONFIGの編集 各プロジェクトの config.toml を編集する
@@ -25,10 +25,10 @@ CONFIGの編集 各プロジェクトの config.toml を編集する
     
     <item>
       <title>Install</title>
-      <link>http://localhost/install/page-1/</link>
+      <link>https://framelunch.github.io/docs/install/page-1/</link>
       <pubDate>Tue, 06 Mar 2018 02:24:46 +0000</pubDate>
       
-      <guid>http://localhost/install/page-1/</guid>
+      <guid>https://framelunch.github.io/docs/install/page-1/</guid>
       <description>1. ソースファイルの取得 WORKSPACE_DIR=インストールするディレクトリ PROJECT_NAME=docs cd $WORKSPACE_DIR git clone git@github.com:framelunch/docs.git ./$PROJECT_NAME  2. 便利メソッドを登録 下記の関数をあなたの「~/.bash_profile」に追記してください。
 Makefileに登録されている便利関数を、どこにいても利用できるようになります。
 (以降の説明は下記を追記している前提で進みます)
@@ -38,54 +38,51 @@ Makefileに登録されている便利関数を、どこにいても利用でき
     
     <item>
       <title>テーマの変更をする方法</title>
-      <link>http://localhost/reference/page-1/</link>
+      <link>https://framelunch.github.io/docs/reference/page-1/</link>
       <pubDate>Tue, 06 Mar 2018 02:24:46 +0000</pubDate>
       
-      <guid>http://localhost/reference/page-1/</guid>
+      <guid>https://framelunch.github.io/docs/reference/page-1/</guid>
       <description>今後書く</description>
     </item>
     
     <item>
       <title>Docsを配置する準備</title>
-      <link>http://localhost/install/page-2/</link>
+      <link>https://framelunch.github.io/docs/install/page-2/</link>
       <pubDate>Tue, 06 Mar 2018 02:24:46 +0000</pubDate>
       
-      <guid>http://localhost/install/page-2/</guid>
-      <description> 早速、サンプルプロジェクトのドキュメントを作成する流れを説明します。
+      <guid>https://framelunch.github.io/docs/install/page-2/</guid>
+      <description>早速、サンプルプロジェクトのドキュメントを作成する流れを説明します。
 まずは「どこにドキュメントを配置するのか」を設定しましょう。
 1. プロジェクトのIDを決めましょう 今回のプロジェクトIDは「 sample 」とします
 (どこかに sample というプロジェクトディレクトリを作っておいてください)
 2. MarkDownファイル等を配置する場所を指定しましょう 記述するファイルは、先ほどコピーした docker-compose.override.yml ファイルです。
 このファイルの最下部に例に倣って追記します。
 こんな感じです。
-- ../your/sample/project/docs-src:/usr/local/docs/sample
-「:」で区切って、
+- ../your/sample/project/docs-src:/usr/local/docs/sample  「:」で区切って、
 左辺は Host(Mac)のMarkDownファイル等を配置するパス
 右辺は 「/usr/local/docs/プロジェクトID」
  3. 静的サイトのビルド先を指定しましょう 公開されるドキュメントのWebRootをビルド先を指定します。
-- ../your/sample/project/docs:/usr/local/docs/sample/public
-「:」で区切って、
-左辺は 静的サイトのWeb Rootパス
-右辺は 「/usr/local/docs/プロジェクトID/public」
- 編集したソースの全体図 version: &amp;quot;3.5&amp;quot; services: docs: volumes: # --- ビルド先と作業ディレクトリを指定していく(自分の環境に合わせる) --- # docs - ./docs-src:/usr/local/docs/docs - ./docs:/usr/local/docs/docs/public # ======= 以降 追記した部分です ======= # sample - ../your/sample/project/docs-src:/usr/local/docs/sample - ../your/sample/project/docs:/usr/local/docs/sample/public  </description>
+- type: bind source: ../your/sample/project/docs target: /usr/local/docs/sample/public  source: 静的サイトのWeb Rootパス
+target: /usr/local/docs/プロジェクトID/public
+ 編集したソースの全体図 version: &amp;quot;3.5&amp;quot; services: docs: volumes: # --- ビルド先と作業ディレクトリを指定していく(自分の環境に合わせる) --- # docs - ./docs-src:/usr/local/docs/docs - type: bind source: ./docs target: /usr/local/docs/docs/public # ======= 以降 追記した部分です ======= # sample - .</description>
     </item>
     
     <item>
       <title>learn</title>
-      <link>http://localhost/tools/page-2/</link>
+      <link>https://framelunch.github.io/docs/tools/page-2/</link>
       <pubDate>Tue, 06 Mar 2018 02:24:46 +0000</pubDate>
       
-      <guid>http://localhost/tools/page-2/</guid>
+      <guid>https://framelunch.github.io/docs/tools/page-2/</guid>
       <description> Links 記事を書く時によく見るリンクとか追記していく
 素敵Notice 感動Chart </description>
     </item>
     
     <item>
       <title>Docsの作成</title>
-      <link>http://localhost/install/page-3/</link>
+      <link>https://framelunch.github.io/docs/install/page-3/</link>
       <pubDate>Tue, 06 Mar 2018 02:24:46 +0000</pubDate>
       
-      <guid>http://localhost/install/page-3/</guid>
+      <guid>https://framelunch.github.io/docs/install/page-3/</guid>
       <description>実際にソースファイルを作成していきます。
 1. ソースファイルのひな形を生成します PROJECT_ID=sample docs new $PROJECT_ID  成功すると先ほど指定したソースファイル置き場にファイルが作成されています。
 graph LR; A[sample project] -- |MarkDown置き場| B A[sample project] -- |静的サイトWebRoot| C A[sample project] -- |その他省略| D B[content] C[public] D[other]  2. 早速コンテンツを配置してみましょう 指定したソースファイル置き場の「content」ディレクトリに

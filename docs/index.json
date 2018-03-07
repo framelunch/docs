@@ -1,83 +1,83 @@
 [
 {
-	"uri": "http://localhost/tools/page-1/",
+	"uri": "https://framelunch.github.io/docs/tools/page-1/",
 	"title": "HUGO",
 	"tags": [],
 	"description": "",
 	"content": " Links 記事を書く時によく見るリンクとか\n小技とか追記していく\nCONFIGの編集 各プロジェクトの config.toml を編集する\n記法: Short Code "
 },
 {
-	"uri": "http://localhost/install/page-1/",
+	"uri": "https://framelunch.github.io/docs/install/page-1/",
 	"title": "Install",
 	"tags": [],
 	"description": "",
 	"content": " 1. ソースファイルの取得 WORKSPACE_DIR=インストールするディレクトリ PROJECT_NAME=docs cd $WORKSPACE_DIR git clone git@github.com:framelunch/docs.git ./$PROJECT_NAME  2. 便利メソッドを登録 下記の関数をあなたの「~/.bash_profile」に追記してください。\nMakefileに登録されている便利関数を、どこにいても利用できるようになります。\n(以降の説明は下記を追記している前提で進みます)\n# TODO your path to docs project. export DOCS_PATH=/path/to/docs/project function docs(){ cd $DOCS_PATH; source ./.env docker-compose up -d case $1 in build ) make id=$2;; preview ) make preview id=$2;; new ) make project id=$2;; upd ) make update id=$2;; esac }  設定後は source ~/.bash_profile をお忘れなく！\n3. 「docker-compose.override.yml」を作りましょう cd $DOCS_PATH cp -f .docker-compose.override.sample.yml .docker-compose.override.yml  "
 },
 {
-	"uri": "http://localhost/reference/page-1/",
+	"uri": "https://framelunch.github.io/docs/reference/page-1/",
 	"title": "テーマの変更をする方法",
 	"tags": [],
 	"description": "",
 	"content": "今後書く\n"
 },
 {
-	"uri": "http://localhost/install/page-2/",
+	"uri": "https://framelunch.github.io/docs/install/page-2/",
 	"title": "Docsを配置する準備",
 	"tags": [],
 	"description": "",
-	"content": " 早速、サンプルプロジェクトのドキュメントを作成する流れを説明します。\nまずは「どこにドキュメントを配置するのか」を設定しましょう。\n1. プロジェクトのIDを決めましょう 今回のプロジェクトIDは「 sample 」とします\n(どこかに sample というプロジェクトディレクトリを作っておいてください)\n2. MarkDownファイル等を配置する場所を指定しましょう 記述するファイルは、先ほどコピーした docker-compose.override.yml ファイルです。\nこのファイルの最下部に例に倣って追記します。\nこんな感じです。\n- ../your/sample/project/docs-src:/usr/local/docs/sample\n「:」で区切って、\n左辺は Host(Mac)のMarkDownファイル等を配置するパス\n右辺は 「/usr/local/docs/プロジェクトID」\n 3. 静的サイトのビルド先を指定しましょう 公開されるドキュメントのWebRootをビルド先を指定します。\n- ../your/sample/project/docs:/usr/local/docs/sample/public\n「:」で区切って、\n左辺は 静的サイトのWeb Rootパス\n右辺は 「/usr/local/docs/プロジェクトID/public」\n 編集したソースの全体図 version: \u0026quot;3.5\u0026quot; services: docs: volumes: # --- ビルド先と作業ディレクトリを指定していく(自分の環境に合わせる) --- # docs - ./docs-src:/usr/local/docs/docs - ./docs:/usr/local/docs/docs/public # ======= 以降 追記した部分です ======= # sample - ../your/sample/project/docs-src:/usr/local/docs/sample - ../your/sample/project/docs:/usr/local/docs/sample/public  "
+	"content": " 早速、サンプルプロジェクトのドキュメントを作成する流れを説明します。\nまずは「どこにドキュメントを配置するのか」を設定しましょう。\n1. プロジェクトのIDを決めましょう 今回のプロジェクトIDは「 sample 」とします\n(どこかに sample というプロジェクトディレクトリを作っておいてください)\n2. MarkDownファイル等を配置する場所を指定しましょう 記述するファイルは、先ほどコピーした docker-compose.override.yml ファイルです。\nこのファイルの最下部に例に倣って追記します。\nこんな感じです。\n- ../your/sample/project/docs-src:/usr/local/docs/sample  「:」で区切って、\n左辺は Host(Mac)のMarkDownファイル等を配置するパス\n右辺は 「/usr/local/docs/プロジェクトID」\n 3. 静的サイトのビルド先を指定しましょう 公開されるドキュメントのWebRootをビルド先を指定します。\n- type: bind source: ../your/sample/project/docs target: /usr/local/docs/sample/public  source: 静的サイトのWeb Rootパス\ntarget: /usr/local/docs/プロジェクトID/public\n 編集したソースの全体図 version: \u0026quot;3.5\u0026quot; services: docs: volumes: # --- ビルド先と作業ディレクトリを指定していく(自分の環境に合わせる) --- # docs - ./docs-src:/usr/local/docs/docs - type: bind source: ./docs target: /usr/local/docs/docs/public # ======= 以降 追記した部分です ======= # sample - ../your/sample/project/docs-src:/usr/local/docs/sample - type: bind source: ../your/sample/project/docs target: /usr/local/docs/sample/public  "
 },
 {
-	"uri": "http://localhost/tools/page-2/",
+	"uri": "https://framelunch.github.io/docs/tools/page-2/",
 	"title": "learn",
 	"tags": [],
 	"description": "",
 	"content": " Links 記事を書く時によく見るリンクとか追記していく\n素敵Notice 感動Chart "
 },
 {
-	"uri": "http://localhost/install/page-3/",
+	"uri": "https://framelunch.github.io/docs/install/page-3/",
 	"title": "Docsの作成",
 	"tags": [],
 	"description": "",
-	"content": " 実際にソースファイルを作成していきます。\n1. ソースファイルのひな形を生成します PROJECT_ID=sample docs new $PROJECT_ID  成功すると先ほど指定したソースファイル置き場にファイルが作成されています。\ngraph LR; A[sample project] -- |MarkDown置き場| B A[sample project] -- |静的サイトWebRoot| C A[sample project] -- |その他省略| D B[content] C[public] D[other]  2. 早速コンテンツを配置してみましょう 指定したソースファイル置き場の「content」ディレクトリに\nファイル「_index.md」を作成し、下記をコピペしてください。\n+++ date = \u0026quot;2018-03-06T02:24:46Z\u0026quot; title = \u0026quot;Top\u0026quot; +++ {{% notice tip %}} **HELLO WORLD !!!** {{% /notice %}}  静的サイトのコンテンツ(Mark Downファイル)は\n全てこの「content」ディレクトリに配置します\n 3. サーバー上で確認しながらコンテンツを充実させましょう 下記のコマンドで簡易的なWebサーバーを立ち上げて\nhttp://localhost:1313 にアクセスしましょう\nPROJECT_ID=sample docs preview $PROJECT_ID  HELLO WORLD できたでしょうか？\n_index.md をさらに編集して、ファイルを保存してみてください。\n親切にも Auto Reload 機能が付いているので\n快適に編集できますね。\n 4. 静的サイトをビルドしましょう PROJECT_ID=sample docs build $PROJECT_ID  もっと知りたい人は HUGO や 利用しているテーマ についての情報をここにまとめていきます。\nみなさんも是非追記してくださいね！\n"
+	"content": " 実際にソースファイルを作成していきます。\n1. ソースファイルのひな形を生成します PROJECT_ID=sample docs new $PROJECT_ID  成功すると先ほど指定したソースファイル置き場にファイルが作成されています。\ngraph LR; A[sample project] -- |MarkDown置き場| B A[sample project] -- |静的サイトWebRoot| C A[sample project] -- |その他省略| D B[content] C[public] D[other]  2. 早速コンテンツを配置してみましょう 指定したソースファイル置き場の「content」ディレクトリに\nファイル「_index.md」を作成し、下記をコピペしてください。\n+++ date = \u0026quot;2018-03-06T02:24:46Z\u0026quot; title = \u0026quot;Top\u0026quot; +++ {{% notice tip %}} **HELLO WORLD !!!** {{% /notice %}}  静的サイトのコンテンツ(Mark Downファイル)は\n全てこの「content」ディレクトリに配置します\n 3. サーバー上で確認しながらコンテンツを充実させましょう 下記のコマンドで簡易的なWebサーバーを立ち上げて\nhttp://localhost:1313 にアクセスしましょう\nPROJECT_ID=sample docs preview $PROJECT_ID  HELLO WORLD できたでしょうか？\n_index.md をさらに編集して、ファイルを保存してみてください。\n親切にも Auto Reload 機能が付いているので\n快適に編集できますね。\n 4. 静的サイトをビルドしましょう PROJECT_ID=sample docs build $PROJECT_ID  成功すると先ほど指定したWebRootにビルドされているはずです。\nもっと知りたい人は HUGO や 利用しているテーマ についての情報をここにまとめていきます。\nみなさんも是非追記してくださいね！\n"
 },
 {
-	"uri": "http://localhost/",
+	"uri": "https://framelunch.github.io/docs/",
 	"title": "Docs Builder",
 	"tags": [],
 	"description": "",
 	"content": " Docs Builder by HUGO Outline ドキュメントを作る際に\nLocalに静的サイトジェネレータが欲しかったからHUGOで作ってみた。\nLocalにインストールはしたくないからDockerで。\nGitHubにデプロイすることとかは考えていません。\n(やりたいときはこうやってやるみたい)\n1. Getting Started. このドキュメントについて "
 },
 {
-	"uri": "http://localhost/install/",
+	"uri": "https://framelunch.github.io/docs/install/",
 	"title": "Getting Started",
 	"tags": [],
 	"description": "",
 	"content": " 目次 インストール Docsを配置する準備 Docsの作成 "
 },
 {
-	"uri": "http://localhost/reference/",
+	"uri": "https://framelunch.github.io/docs/reference/",
 	"title": "Reference",
 	"tags": [],
 	"description": "",
 	"content": "まだ作ってないけど、記事を追加していきたいなぁ。\n"
 },
 {
-	"uri": "http://localhost/tools/",
+	"uri": "https://framelunch.github.io/docs/tools/",
 	"title": "Tools",
 	"tags": [],
 	"description": "",
 	"content": " Site Generator: HUGO Theme: learn "
 },
 {
-	"uri": "http://localhost/categories/",
+	"uri": "https://framelunch.github.io/docs/categories/",
 	"title": "Categories",
 	"tags": [],
 	"description": "",
 	"content": ""
 },
 {
-	"uri": "http://localhost/tags/",
+	"uri": "https://framelunch.github.io/docs/tags/",
 	"title": "Tags",
 	"tags": [],
 	"description": "",

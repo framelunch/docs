@@ -1,0 +1,12 @@
+baseURL = "http://localhost/"
+languageCode = "en"
+defaultContentLanguage = "en"
+title = "Docs"
+theme = "default"
+enableEmoji = "true"
+
+[outputs]
+home = [ "HTML", "RSS", "JSON"]
+
+[blackfriday]
+autolink = "enabled"

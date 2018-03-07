@@ -1,4 +1,4 @@
-version: "3"
+version: "3.5"
 
 services:
 
@@ -10,4 +10,5 @@ services:
     ports:
       - "${PREVIEW_SERVER_PORT}:1313"
     volumes:
-      - ./hugo:/usr/local/docs
+      - ./hugo/common-themes:/usr/local/docs/common-themes
+      - ./hugo/default-config.toml:/usr/local/docs/default-config.toml

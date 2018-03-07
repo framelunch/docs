@@ -5,20 +5,16 @@ menuTitle = "Install"
 weight = 10
 +++
 
-## 1. Gitプロジェクトの作成
-GitHub や GitLab でプロジェクトを作成してください  
-*※そのリポジトリURLをコピーしておくこと*
-
-## 2. ソースファイルの取得
+## 1. ソースファイルの取得 page-1
 ```bash
-WORKSPACE_DIR=あなたのプロジェクトを作成するディレクトリ
-PROJECT_NAME=sample
+WORKSPACE_DIR=インストールするディレクトリ
+PROJECT_NAME=docs
 cd $WORKSPACE_DIR
 
-git clone https://github.com/framelunch/scaffold-wordpress.git ./$PROJECT_NAME
+git clone git@github.com:framelunch/docs.git ./$PROJECT_NAME
 ```
 
-## 3. リモートリポジトリの切り替え
+## 2. 設定ファイル
 このままソースファイルを編集すると  
 あなたの修正を Scaffold-WPにcommitすることになってしまうので  
 あなたのプロジェクトとソースファイルを関連づけましょう。

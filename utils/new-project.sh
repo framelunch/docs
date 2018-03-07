@@ -1,2 +1,7 @@
 #!/usr/bin/env bash
-docker exec $1 /bin/bash "/usr/bin/hugo new site $2 && ln -s $2/common-themes/docs $2/themes/docs"
+docker exec $1 /bin/bash -c "\
+    cd /usr/local/docs && \
+    /usr/local/bin/hugo new site $2 && \
+    ln -s /usr/local/docs/common-themes/default $2/themes/default && \
+    cp -f default-config.toml $2/config.toml 
+"

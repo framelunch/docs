@@ -69,7 +69,7 @@ HOW TO USE ...
         configure -i [! Document ID] -w [Document work directory(Mark Downを置くディレクトリ)] -b [Document build directory(Web Rootディレクトリ)] 
         
         # ドキュメントに新しいページを追加する
-        post -p [! ページのファイルパス (例: _index.md, /news/_index.md, /news/page-1.md)]
+        post -p [! ページのファイルパス (例: _index.md, /news/_index.md, /news/page-1.md)] -i [Document ID]
 
         ##### ドキュメントを見る #####
         preview -i [Document ID]
@@ -478,6 +478,11 @@ EOF
     # 設定ファイルを作成する
     createConfig ${PROJECT_ID} ${WORK_DIR} ${BUILD_DIR}
     
+    # もしも .envが存在しなかったら作成しておく
+    if [ $(isFile ${CURRENT_CONFIG}) = "false" ]; then
+        switchCurrentConfig ${PROJECT_ID}
+    fi
+    
     # カレントコンフィグのバックアップ
     BKUP_CURRENT_CONFIG="${CURRENT_CONFIG}.old"
     if [ $(isFile ${CURRENT_CONFIG}) = "true" ]; then
@@ -495,7 +500,7 @@ EOF
     if [ ${FLG_FORCE} = "false" -a $(isDirOnContainer "${CONTAINER_WORK_DIR}/${PROJECT_ID}") = "true" ]; then
         echo "ERR: -i  プロジェクト ${PROJECT_ID} は既に存在します。"
         echo "次のコマンドで既存のプロジェクトを上書きできます。"
-        echo "docs new -f -i ${PROJECT_ID}"
+        echo "docs new -f -i ${PROJECT_ID} -w ${WORK_DIR} -b ${BUILD_DIR}"
         
         # バックアップを取っていたコンフィグを元に戻す
         cp -f ${BKUP_CURRENT_CONFIG} ${CURRENT_CONFIG};

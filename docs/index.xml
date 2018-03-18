@@ -84,14 +84,13 @@ BUILD_DIR=${SAMPLE_PROJECT_DIR}/docs  4. 意図した設定になっているか
       <guid>https://framelunch.github.io/docs/install/page-3/</guid>
       <description>実際にソースファイルを作成していきます。
 1. ソースファイルのひな形を生成します docs new -i ${DOCUMENT_ID} -w ${WORK_DIR} -b ${BUILD_DIR}  成功すると ${WORK_DIR} に下記のようなひな形が作成されます
-graph LR; A[WORK_DIR] -- |MarkDown置き場| B A[WORK_DIR] -- |ビルド結果| C A[WORK_DIR] -- |その他省略| D B[content] C[public] D[other]  Docs Managerの command/config 以下に設定ファイルが作成されます。
+graph LR; A[WORK_DIR] -- |MarkDown置き場| B A[WORK_DIR] -- |ビルド結果| C A[WORK_DIR] -- |テーマファイル| D A[WORK_DIR] -- |その他省略| E B[content] C[public] D[themes] E[other]  Docs Managerの command/config 以下に設定ファイルが作成されます。
 同時に .env ファイル の内容が、今作成した設定ファイルと同じものになっています。
 この .env ファイルの内容が、カレントドキュメント(今指定されているDocument) です。
 コマンドでドキュメントを指定しない場合は、この カレントドキュメント を自動で対象にします。
 複数の設定ファイルがある場合は switchコマンド によって カレントドキュメント を切り替えます。
  2. 早速コンテンツを配置してみましょう 下記の3ファイルを配置してみましょう
- _index.md (Topページ) news/_index.md (/news/ ページ) news/page-1.md (/news/ コンテンツ1)  下記を1行ずつ実行します。
-docs post -p _index.</description>
+ _index.md (Topページ) news/_index.md (/news/ ページ) news/page-1.md (/news/ コンテンツ1)  下記を1行ずつ実行します。</description>
     </item>
     
   </channel>

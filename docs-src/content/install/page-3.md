@@ -21,10 +21,12 @@ docs new -i ${DOCUMENT_ID} -w ${WORK_DIR} -b ${BUILD_DIR}
 graph LR;
     A[WORK_DIR] --> |MarkDown置き場| B
     A[WORK_DIR] --> |ビルド結果| C
-    A[WORK_DIR] --> |その他省略| D
+    A[WORK_DIR] --> |テーマファイル| D
+    A[WORK_DIR] --> |その他省略| E
     B[content]
     C[public]
-    D[other]
+    D[themes]
+    E[other]
 {{< /mermaid >}}
 
 {{% notice info %}}
@@ -63,7 +65,7 @@ NewsのTopページ
 {{%/* /notice */%}}
 ```
 ```bash
-{{%/* notice wraning */%}}
+{{%/* notice warning */%}}
 Newsコンテンツ1
 {{%/* /notice */%}}
 ```
@@ -76,10 +78,6 @@ docs preview
 ```
 [http://localhost:1313](http://localhost:1313) にアクセスしましょう
 
-```bash
-PROJECT_ID=sample
-docs preview $PROJECT_ID
-```
 表示できたでしょうか？  
 
 {{% notice tip %}}

@@ -12,55 +12,77 @@ weight = 30
 ## 1. ソースファイルのひな形を生成します
 
 ```bash
-PROJECT_ID=sample
-docs new $PROJECT_ID
+docs new -i ${DOCUMENT_ID} -w ${WORK_DIR} -b ${BUILD_DIR}
 ```
 
-成功すると[先ほど]({{% ref "/install/page-2.md#2-markdownファイル等を配置する場所を指定しましょう" %}})指定したソースファイル置き場にファイルが作成されています。
+成功すると **${WORK_DIR}** に下記のようなひな形が作成されます
 
 {{<mermaid align="left">}}
 graph LR;
-    A[sample project] --> |MarkDown置き場| B
-    A[sample project] --> |静的サイトWebRoot| C
-    A[sample project] --> |その他省略| D
+    A[WORK_DIR] --> |MarkDown置き場| B
+    A[WORK_DIR] --> |ビルド結果| C
+    A[WORK_DIR] --> |その他省略| D
     B[content]
     C[public]
     D[other]
 {{< /mermaid >}}
 
-## 2. 早速コンテンツを配置してみましょう
-指定したソースファイル置き場の「**content**」ディレクトリに  
-ファイル「**_index.md**」を作成し、下記をコピペしてください。
-
-```markdown
-+++
-date = "2018-03-06T02:24:46Z"
-title = "Top"
-+++
-
-{{%/* notice tip */%}}
-**HELLO WORLD !!!**
-{{%/* /notice */%}}
-
-```
-
-{{% notice note %}}
-静的サイトのコンテンツ(Mark Downファイル)は  
-全てこの「**content**」ディレクトリに配置します
+{{% notice info %}}
+Docs Managerの `command/config` 以下に設定ファイルが作成されます。  
+同時に .env ファイル の内容が、今作成した設定ファイルと同じものになっています。  
+この .env ファイルの内容が、**カレントドキュメント(今指定されているDocument)** です。  
+コマンドでドキュメントを指定しない場合は、この **カレントドキュメント** を自動で対象にします。  
+複数の設定ファイルがある場合は **switchコマンド** によって **カレントドキュメント** を切り替えます。 
 {{% /notice %}}
 
-## 3. サーバー上で確認しながらコンテンツを充実させましょう
+## 2. 早速コンテンツを配置してみましょう
+下記の3ファイルを配置してみましょう  
 
-下記のコマンドで簡易的なWebサーバーを立ち上げて  
+- _index.md (Topページ)
+- news/_index.md (/news/ ページ)
+- news/page-1.md (/news/ コンテンツ1)
+
+下記を1行ずつ実行します。  
+**`docs post -p _index.md`**  
+**`docs post -p news/_index.md`**  
+**`docs post -p news/page-1.md`**  
+
+{{% notice info %}}
+**${WORK_DIR}** の **contentディレクトリ** に作成されます。
+{{% /notice %}}
+
+### 作成されたページに目印を追記してみてください
+```bash
+{{%/* notice note */%}}
+Topページ
+{{%/* /notice */%}}
+```
+```bash
+{{%/* notice tip */%}}
+NewsのTopページ
+{{%/* /notice */%}}
+```
+```bash
+{{%/* notice wraning */%}}
+Newsコンテンツ1
+{{%/* /notice */%}}
+```
+
+## 3. サーバー上でコンテンツを確認してみましょう
+
+下記のコマンドで簡易的なWebサーバーを立ち上げて
+```bash
+docs preview
+```
 [http://localhost:1313](http://localhost:1313) にアクセスしましょう
 
 ```bash
 PROJECT_ID=sample
 docs preview $PROJECT_ID
 ```
-HELLO WORLD できたでしょうか？  
+表示できたでしょうか？  
 
-{{% notice info %}}
+{{% notice tip %}}
 **_index.md** をさらに編集して、ファイルを保存してみてください。  
 親切にも Auto Reload 機能が付いているので  
 快適に編集できますね。
@@ -69,11 +91,13 @@ HELLO WORLD できたでしょうか？
 ## 4. 静的サイトをビルドしましょう
 
 ```bash
-PROJECT_ID=sample
-docs build $PROJECT_ID
+docs build
 ```
 
-成功すると[先ほど]({{% ref "/install/page-2.md#3-静的サイトのビルド先を指定しましょう" %}})指定したWebRootにビルドされているはずです。
+成功すると **${BUILD_DIR}** にビルドされています。  
+GitHubなら、これをpushして(ちょっと設定して)あげればドキュメントが公開できます。  
+Dockerを利用すれば、ドキュメント用のWebサーバーを立ち上げることも  
+簡単にできますが、、、その説明はまたいずれ。
 
 
 ## もっと知りたい人は

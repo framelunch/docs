@@ -6,66 +6,44 @@ weight = 20
 +++
 
 早速、サンプルプロジェクトのドキュメントを作成する流れを説明します。  
-まずは「どこにドキュメントを配置するのか」を設定しましょう。
+まずは「どこにドキュメントを配置するのか」を決めましょう。
 
 --- 
 
-## 1. プロジェクトのIDを決めましょう
-今回のプロジェクトIDは「 **sample** 」とします  
-(どこかに sample というプロジェクトディレクトリを作っておいてください)
+## 1. DocumentのIDを決めましょう
+今回は、Document IDを「 **sample** 」とします  
+一緒に作成しましょう。
+```bash
+cd ${WORKSHOP_DIR}
 
-## 2. MarkDownファイル等を配置する場所を指定しましょう
-記述するファイルは、[先ほど]({{% ref "/install/page-1.md#3-docker-compose-override-yml-を作りましょう" %}})コピーした
-**docker-compose.override.yml** ファイルです。  
+DOCUMENT_ID=sample
+SAMPLE_PROJECT_DIR=${WORKSHOP_DIR}/${DOCUMENT_ID}
 
-このファイルの最下部に例に倣って追記します。  
-こんな感じです。
-
-```yaml
-      - ../your/sample/project/docs-src:/usr/local/docs/sample
+mkdir -p ${SAMPLE_PROJECT_DIR}
 ```
 
-{{% notice note %}}
-「**:**」で区切って、  
-左辺は **Host(Mac)のMarkDownファイル等を配置するパス**  
-右辺は 「**/usr/local/docs/プロジェクトID**」
-{{% /notice %}}
-
-
-
-## 3. 静的サイトのビルド先を指定しましょう
-公開されるドキュメントのWebRootをビルド先を指定します。   
-
-```yaml
-      - type: bind
-        source: ../your/sample/project/docs
-        target: /usr/local/docs/sample/public
+## 2. MarkDownファイル等を配置する場所を決めましょう
+今回は「 **${SAMPLE_PROJECT_DIR}/docs-src** 」とします  
+```bash
+WORK_DIR=${SAMPLE_PROJECT_DIR}/docs-src
 ```
 
-{{% notice note %}}
-**source**: **静的サイトのWeb Rootパス**  
-**target**: **/usr/local/docs/プロジェクトID/public**
-{{% /notice %}}
+## 3. Documentのビルド先を指定しましょう
+今回は「 **${SAMPLE_PROJECT_DIR}/docs** 」とします  
+```bash
+BUILD_DIR=${SAMPLE_PROJECT_DIR}/docs
+```
 
-## 編集したソースの全体図
-```yaml
-version: "3.5"
-
-services:
-
-  docs:
-    volumes:
-      # --- ビルド先と作業ディレクトリを指定していく(自分の環境に合わせる) ---
-      # docs
-      - ./docs-src:/usr/local/docs/docs
-      - type: bind
-        source: ./docs
-        target: /usr/local/docs/docs/public
-      
-      # ======= 以降 追記した部分です =======
-      # sample
-      - ../your/sample/project/docs-src:/usr/local/docs/sample
-      - type: bind
-        source: ../your/sample/project/docs
-        target: /usr/local/docs/sample/public
+## 4. 意図した設定になっているか確認しましょう
+```bash
+cat <<- EOF
+SAMPLE_PROJECT_DIR:    
+    ${SAMPLE_PROJECT_DIR}
+DOCUMENT_ID:    
+    ${DOCUMENT_ID}
+WORK_DIR:    
+    ${WORK_DIR}
+BUILD_DIR:    
+    ${BUILD_DIR}
+EOF
 ```

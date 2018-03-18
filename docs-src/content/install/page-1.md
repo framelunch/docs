@@ -5,52 +5,79 @@ menuTitle = "Install"
 weight = 10
 +++
 
-## 1. ソースファイルの取得
+## 1. Docker for Macをインストールしましょう
+最新のDockerが利用できる**Edge版** の  
+[Docker for Mac](https://download.docker.com/mac/edge/Docker.dmg) をインストールしましょう  
+*※ [Stable版](https://download.docker.com/mac/stable/Docker.dmg)が入っている人はそのままでいいです*
+
+## 2. ソースファイルの取得
 ```bash
-WORKSPACE_DIR=インストールするディレクトリ
+WORKSHOP_DIR=インストールするディレクトリパス
 PROJECT_NAME=docs
-cd $WORKSPACE_DIR
 
-git clone git@github.com:framelunch/docs.git ./$PROJECT_NAME
+cd ${WORKSHOP_DIR}
+git clone git@github.com:framelunch/docs.git ./${PROJECT_NAME}
+cd ${PROJECT_NAME}
 ```
 
-## 2. コマンドをインストール
-Documentを扱う便利コマンドのシンボリックリンクを  
-`/usr/local/bin/docs` に登録します。
+{{% notice warning %}}
+**WORKSHOP_DIR** は**絶対パス**で指定してください  
+カレントディレクトリの絶対パスは `pwd` で取得できます
+{{% /notice %}}
 
+## 3. コマンドをインストール
+docsコマンドを利用できるようにします
 ```bash
-DOCS_PATH=/path/to/docs/project
-cd ${DOCS_PATH}
-sh utils/install.sh
+make
+```
+{{% notice tip %}}
+アンインストールは `make uninstall` です  
+インストール時に `/usr/local/bin/docs` にコマンドのシンボリックリンクを作成しているので  
+それを削除しているだけです。
+{{% /notice %}} 
 
-
-
-# TODO your path to docs project.
-export DOCS_PATH=/path/to/docs/project
-function docs(){
-  cd $DOCS_PATH;
-  source ./.env
-  
-  docker-compose up -d
-  case $1 in
-    init ) bash utils/initialize.sh -c $2 -i $3 -w $4 -b $5;;
-    config ) bash utils/config.sh -c $2 -i $3 -w $4 -b $5;;
-    config ) make configure id="$2" work_dir="$3" build_dir="$4";;
-    switch ) make switch id="$2";;
-    build ) make;;
-    preview ) make preview;;
-    new ) make project;;
-    post ) make post post_path="$2";;
-    reboot ) make reboot;;
-    * ) echo "unexpected command.";;
-  esac
-}
+## 4. 試しにコマンドのUsageを表示してみましょう
+```bash
+docs
 ```
 
-設定後は `source ~/.bash_profile` をお忘れなく！
+下記のような説明が表示されるはずです。
 
-## 3. 「docker-compose.override.yml」を作りましょう
 ```bash
-cd $DOCS_PATH
-cp -f .docker-compose.override.sample.yml .docker-compose.override.yml
+HOW TO USE ...
+
+    Usage:
+        docs [Command] [Command Arguments]
+        ※ [Command Arguments]の先頭に ! が付いているものは必須パラメータです
+
+    Command:
+        ##### 設定を行う #####
+        # Current Documentの切り替え
+        switch -i [! Document ID]
+
+        # Document設定の削除
+        remove -i [! Document ID]
+
+        ##### ドキュメントを作る #####
+        # 新しいドキュメントを作る
+        new -i [! Document ID] -w [! Document work directory(Mark Downを置くディレクトリ)] -b [! Document build directory(Web Rootディレクトリ)]
+
+        # 既存のローカルにあるドキュメントを追加する
+        add -i [! Document ID] -w [! Document work directory(Mark Downを置くディレクトリ)] -b [! Document build directory(Web Rootディレクトリ)]
+
+        # new, add コマンドで指定した設定の更新
+        configure -i [! Document ID] -w [Document work directory(Mark Downを置くディレクトリ)] -b [Document build directory(Web Rootディレクトリ)]
+
+        # ドキュメントに新しいページを追加する
+        post -p [! ページのファイルパス (例: _index.md, /news/_index.md, /news/page-1.md)]
+
+        ##### ドキュメントを見る #####
+        preview -i [Document ID]
+
+        ##### ドキュメントを出力する #####
+        build -i [Document ID]
+
+        ##### その他 #####
+        # Docs の Dockerを再起動します
+        reboot -f [付けると強制的にダウンしてから再起動]
 ```

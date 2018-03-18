@@ -1,9 +1,9 @@
 +++
 date = "2018-03-06T02:24:46Z"
-title = "Docs Builder"
+title = "Docs Manager"
 +++
 
-# Docs Builder by HUGO
+# Docs Manager by HUGO
 
 ---
 

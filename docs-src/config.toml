@@ -1,5 +1,4 @@
 baseURL = "https://framelunch.github.io/docs/"
-# baseURL = "https://localhost/"
 languageCode = "en"
 defaultContentLanguage = "en"
 title = "Docs"

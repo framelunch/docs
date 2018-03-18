@@ -5,4 +5,4 @@ install:
 	bash utils/install.sh
 
 uninstall:
-	bash utils/install.sh
+	bash utils/uninstall.sh

@@ -62,7 +62,10 @@ HOW TO USE ...
         # 新しいドキュメントを作る
         new -i [! Document ID] -w [! Document work directory(Mark Downを置くディレクトリ)] -b [! Document build directory(Web Rootディレクトリ)]
         
-        # new コマンドで指定した設定の更新
+        # 既存のローカルにあるドキュメントを追加する
+        add -i [! Document ID] -w [! Document work directory(Mark Downを置くディレクトリ)] -b [! Document build directory(Web Rootディレクトリ)]
+        
+        # new, add コマンドで指定した設定の更新
         configure -i [! Document ID] -w [Document work directory(Mark Downを置くディレクトリ)] -b [Document build directory(Web Rootディレクトリ)] 
         
         # ドキュメントに新しいページを追加する
@@ -97,7 +100,7 @@ function isCorrectProjectId()
 # 半角英数字 or アンダーバー or スラッシュ or .
 function isCorrectAbsoluteFilePath()
 {
-    if [[ ${1} =~ ^[a-zA-Z0-9_/-\.]*$ ]]; then
+    if [[ ${1} =~ ^[a-zA-Z0-9_/\.\-]*$ ]]; then
         echo "true"
     else
         echo "false"        
@@ -244,6 +247,132 @@ function switchCurrentConfig()
 }
 
 ##################
+# subcommand add #
+##################
+function add()
+{
+    echo "Command [ add ] "
+
+    # --- パラメータチェック ---
+    local FLG_ID="false"
+    local FLG_WORK_DIR="false"
+    local FLG_BUILD_DIR="false"
+    while getopts fi:w:b: OPT
+    do
+        case ${OPT} in
+            "i" ) FLG_ID="true" ; PROJECT_ID="$OPTARG" ;;
+            "w" ) FLG_WORK_DIR="true" ; WORK_DIR="$OPTARG" ;;
+            "b" ) FLG_BUILD_DIR="true" ; BUILD_DIR="$OPTARG" ;;
+              * ) usage
+                  echo "ERR: ${OPT} は受け付けられません"
+                  exit ${EXIT_INVALID_ARGUMENT} ;;
+        esac
+    done
+    
+    # --- 必須パラメータの存在チェック ---
+    if [ ${FLG_ID} = "false" ]; then
+        usage
+        echo "ERR: 引数 -i は必須です"
+        exit ${EXIT_NOT_ENOUGH_ARGUMENT}
+    fi
+
+    if [ ${FLG_WORK_DIR} = "false" ]; then
+        usage
+        echo "ERR: 引数 -w は必須です"
+        exit ${EXIT_NOT_ENOUGH_ARGUMENT}
+    fi
+
+    if [ ${FLG_BUILD_DIR} = "false" ]; then
+        usage
+        echo "ERR: 引数 -b は必須です"
+        exit ${EXIT_NOT_ENOUGH_ARGUMENT}
+    fi
+
+    # --- 設定ファイル読み込み ---
+    # 今回はなし
+
+    # --- 任意パラメータの初期値入力 ---
+    # 今回はなし
+    
+    # --- パラメータの表示 ---
+    cat <<- EOF
+Params:    
+    PROJECT_ID: ${PROJECT_ID}
+    WORK_DIR: ${WORK_DIR}
+    BUILD_DIR: ${BUILD_DIR}
+EOF
+    # --- パラメータの正当性チェック ---
+    # PROJECT_ID: 名称チェック(0-9a-z A-Z _)
+    if [ $(isCorrectProjectId "${PROJECT_ID}") = "false" ]; then
+        echo "ERR: -i  半角英数字とアンダーバーのみ"
+        exit ${EXIT_INVALID_ARGUMENT}
+    fi
+    
+    # WORK_DIR: 名称チェック(0-9a-zA-Z _ / -)
+    if [ $(isCorrectAbsolutePath "${WORK_DIR}") = "false" ]; then
+        echo "ERR: -w 半角英数字とアンダーバー,スラッシュ,ハイフンのみ。絶対パスで指定。"
+        exit ${EXIT_INVALID_ARGUMENT}
+    fi
+    
+    # BUILD_DIR: 名称チェック(0-9a-zA-Z _ / -)
+    if [ $(isCorrectAbsolutePath "${BUILD_DIR}") = "false" ]; then
+        echo "ERR: -b 半角英数字とアンダーバー,スラッシュ,ハイフンのみ。絶対パスで指定。"
+        exit ${EXIT_INVALID_ARGUMENT}
+    fi
+
+    # --- Logic ---
+    # WORK_DIR: 存在しないのなら作成する
+    if [ $(isDir "${WORK_DIR}") = "false" ]; then
+        mkdir -p ${WORK_DIR}
+        cat <<- EOF
+Message:    
+    Make work directory => ${WORK_DIR}
+EOF
+    fi
+    
+    # BUILD_DIR: 存在しないのなら作成する
+    if [ $(isDir "${BUILD_DIR}") = "false" ]; then
+        mkdir -p ${BUILD_DIR}
+        cat <<- EOF
+Message:    
+    Make build directory => ${BUILD_DIR}
+EOF
+    fi
+
+    # 設定ファイルを作成する
+    createConfig ${PROJECT_ID} ${WORK_DIR} ${BUILD_DIR}
+    
+    # カレントコンフィグのバックアップ
+    BKUP_CURRENT_CONFIG="${CURRENT_CONFIG}.old"
+    if [ $(isFile ${CURRENT_CONFIG}) = "true" ]; then
+        cp -f ${CURRENT_CONFIG} ${BKUP_CURRENT_CONFIG};
+    fi
+
+    # カレントコンフィグファイルを置き換える
+    switchCurrentConfig ${PROJECT_ID}
+    source ${CURRENT_CONFIG}
+
+    # Dockerコンテナの再起動
+    reboot
+    local REBOOT_RESULT=$?
+    # PROJECT_ID: プロジェクトがDockerコンテナに既に作られていたらエラー
+    if [ ${REBOOT_RESULT} -ne ${EXIT_NORMAL} ]; then
+        echo "ERR: reboot失敗"
+        
+        # バックアップを取っていたコンフィグを元に戻す
+        cp -f ${BKUP_CURRENT_CONFIG} ${CURRENT_CONFIG};
+        rm ${BKUP_CURRENT_CONFIG}
+        source ${CURRENT_CONFIG}
+        exit ${EXIT_INVALID_ARGUMENT}
+    fi
+    
+    # バックアップファイルを削除
+    if [ $(isFile ${BKUP_CURRENT_CONFIG}) = "true" ]; then
+        rm ${BKUP_CURRENT_CONFIG}
+    fi
+}
+
+##################
 # subcommand new #
 ##################
 function new()
@@ -363,7 +492,6 @@ EOF
     reboot
 
     # PROJECT_ID: プロジェクトがDockerコンテナに既に作られていたらエラー
-    echo "flg3: ${FLG_FORCE}"
     if [ ${FLG_FORCE} = "false" -a $(isDirOnContainer "${CONTAINER_WORK_DIR}/${PROJECT_ID}") = "true" ]; then
         echo "ERR: -i  プロジェクト ${PROJECT_ID} は既に存在します。"
         echo "次のコマンドで既存のプロジェクトを上書きできます。"
@@ -481,7 +609,7 @@ EOF
     
     # POST: 名称チェック(0-9a-zA-Z _ / - .)
     if [ $(isCorrectAbsoluteFilePath "${POST}") = "false" ]; then
-        echo "ERR: -w 半角英数字とアンダーバー,スラッシュ,ハイフン,ドットのみ。"
+        echo "ERR: -p 半角英数字とアンダーバー,スラッシュ,ハイフン,ドットのみ。"
         exit ${EXIT_INVALID_ARGUMENT}
     fi
     
@@ -577,27 +705,28 @@ EOF
         exit ${EXIT_INVALID_ARGUMENT}
     fi
     
-    # PROJECT_ID: プロジェクトがDockerコンテナに存在しなかったら生成を試みる
+    # PROJECT_ID: プロジェクトがDockerコンテナに存在しなかったら追加を試みる
     if [ $(isDirOnContainer "${CONTAINER_WORK_DIR}/${PROJECT_ID}/content") = "false" ]; then
         echo "WARN: -i  プロジェクト ${PROJECT_ID} がDockerコンテナ内に存在しません。"
         cat <<- EOF
 Message:    
-    プロジェクトの生成を試みます...
+    プロジェクトの追加を試みます...
 EOF
-        docs new -f -i ${PROJECT_ID} -w ${WORK_DIR} -b ${BUILD_DIR}
+        docs add -i ${PROJECT_ID} -w ${WORK_DIR} -b ${BUILD_DIR}
         NEW_EXIT=$?
         if [ ${NEW_EXIT} -eq ${EXIT_NORMAL} ]; then
             cat <<- EOF
 Message:    
-    生成に成功しました!!!
+    追加に成功しました!!!
 EOF
             exit ${EXIT_NORMAL}
         else
             cat <<- EOF
 Message:    
-    生成中にエラー発生
-    下記のコマンドから改めてプロジェクトを生成してください
+    追加中にエラー発生
+    下記のコマンドから改めてプロジェクトを生成 or 追加してください
     docs new -f -i ${PROJECT_ID} -w 'Mark Downファイルを置き場の絶対パス' -b '静的サイトビルド先'
+    docs add -i ${PROJECT_ID} -w 'Mark Downファイルを置き場の絶対パス' -b '静的サイトビルド先'
 EOF
             exit ${NEW_EXIT}
         fi
@@ -724,27 +853,28 @@ EOF
         exit ${EXIT_INVALID_ARGUMENT}
     fi
     
-    # PROJECT_ID: プロジェクトがDockerコンテナに存在しなかったら生成を試みる
+    # PROJECT_ID: プロジェクトがDockerコンテナに存在しなかったら追加を試みる
     if [ $(isDirOnContainer "${CONTAINER_WORK_DIR}/${PROJECT_ID}/content") = "false" ]; then
         echo "WARN: -i  プロジェクト ${PROJECT_ID} がDockerコンテナ内に存在しません。"
         cat <<- EOF
 Message:    
-    プロジェクトの生成を試みます...
+    プロジェクトの追加を試みます...
 EOF
-        docs new -f -i ${PROJECT_ID} -w ${CURRENT_WORK_DIR} -b ${CURRENT_BUILD_DIR}
+        docs add -i ${PROJECT_ID} -w ${CURRENT_WORK_DIR} -b ${CURRENT_BUILD_DIR}
         NEW_EXIT=$?
         if [ ${NEW_EXIT} -eq ${EXIT_NORMAL} ]; then
             cat <<- EOF
 Message:    
-    生成に成功しました!!!
+    追加に成功しました!!!
 EOF
             exit ${EXIT_NORMAL}
         else
             cat <<- EOF
 Message:    
-    生成中にエラー発生
-    下記のコマンドから改めてプロジェクトを生成してください
+    追加中にエラー発生
+    下記のコマンドから改めてプロジェクトを生成・追加してください
     docs new -f -i ${PROJECT_ID} -w 'Mark Downファイルを置き場の絶対パス' -b '静的サイトビルド先'
+    docs add -i ${PROJECT_ID} -w 'Mark Downファイルを置き場の絶対パス' -b '静的サイトビルド先'
 EOF
             exit ${NEW_EXIT}
         fi

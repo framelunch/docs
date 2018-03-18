@@ -12,19 +12,19 @@
     <title>Install :: Docs</title>
     
     
-    <link href="/docs/css/nucleus.css?1520429556" rel="stylesheet">
-    <link href="/docs/css/font-awesome.min.css?1520429556" rel="stylesheet">
-    <link href="/docs/css/hybrid.css?1520429556" rel="stylesheet">
-    <link href="/docs/css/featherlight.min.css?1520429556" rel="stylesheet">
-    <link href="/docs/css/perfect-scrollbar.min.css?1520429556" rel="stylesheet">
-    <link href="/docs/css/auto-complete.css?1520429556" rel="stylesheet">
-    <link href="/docs/css/theme.css?1520429556" rel="stylesheet">
-    <link href="/docs/css/hugo-theme.css?1520429556" rel="stylesheet">
+    <link href="/docs/css/nucleus.css?1521414725" rel="stylesheet">
+    <link href="/docs/css/font-awesome.min.css?1521414725" rel="stylesheet">
+    <link href="/docs/css/hybrid.css?1521414725" rel="stylesheet">
+    <link href="/docs/css/featherlight.min.css?1521414725" rel="stylesheet">
+    <link href="/docs/css/perfect-scrollbar.min.css?1521414725" rel="stylesheet">
+    <link href="/docs/css/auto-complete.css?1521414725" rel="stylesheet">
+    <link href="/docs/css/theme.css?1521414725" rel="stylesheet">
+    <link href="/docs/css/hugo-theme.css?1521414725" rel="stylesheet">
     
-      <link href="/docs/css/theme-red.css?1520429556" rel="stylesheet">
+      <link href="/docs/css/theme-red.css?1521414725" rel="stylesheet">
     
 
-    <script src="/docs/js/jquery-2.x.min.js?1520429556"></script>
+    <script src="/docs/js/jquery-2.x.min.js?1521414725"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/docs/js/lunr.min.js?1520429556"></script>
-<script type="text/javascript" src="/docs/js/auto-complete.js?1520429556"></script>
+<script type="text/javascript" src="/docs/js/lunr.min.js?1521414725"></script>
+<script type="text/javascript" src="/docs/js/auto-complete.js?1521414725"></script>
 <script type="text/javascript">
     
         var baseurl = '\/docs\/';
     
 </script>
-<script type="text/javascript" src="/docs/js/search.js?1520429556"></script>
+<script type="text/javascript" src="/docs/js/search.js?1521414725"></script>
 
     
   </div>
@@ -327,7 +327,7 @@
             
           
           
-            <a href='/docs/'>Docs Builder</a> > <a href='/docs/install/'>Getting Started</a> > Install
+            <a href='/docs/'>Docs Manager</a> > <a href='/docs/install/'>Getting Started</a> > Install
           
          
           
@@ -343,9 +343,10 @@
 <ul>
 <li>
 <ul>
-<li><a href="#1-ソースファイルの取得">1. ソースファイルの取得</a></li>
-<li><a href="#2-便利メソッドを登録">2. 便利メソッドを登録</a></li>
-<li><a href="#3-docker-compose-override-yml-を作りましょう">3. 「docker-compose.override.yml」を作りましょう</a></li>
+<li><a href="#1-docker-for-macをインストールしましょう">1. Docker for Macをインストールしましょう</a></li>
+<li><a href="#2-ソースファイルの取得">2. ソースファイルの取得</a></li>
+<li><a href="#3-コマンドをインストール">3. コマンドをインストール</a></li>
+<li><a href="#4-試しにコマンドのusageを表示してみましょう">4. 試しにコマンドのUsageを表示してみましょう</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -368,43 +369,83 @@
 
 
 
-<h2 id="1-ソースファイルの取得">1. ソースファイルの取得</h2>
+<h2 id="1-docker-for-macをインストールしましょう">1. Docker for Macをインストールしましょう</h2>
 
-<pre><code class="language-bash">WORKSPACE_DIR=インストールするディレクトリ
+<p>最新のDockerが利用できる<strong>Edge版</strong> の<br />
+<a href="https://download.docker.com/mac/edge/Docker.dmg">Docker for Mac</a> をインストールしましょう<br />
+<em>※ <a href="https://download.docker.com/mac/stable/Docker.dmg">Stable版</a>が入っている人はそのままでいいです</em></p>
+
+<h2 id="2-ソースファイルの取得">2. ソースファイルの取得</h2>
+
+<pre><code class="language-bash">WORKSHOP_DIR=インストールするディレクトリパス
 PROJECT_NAME=docs
-cd $WORKSPACE_DIR
 
-git clone git@github.com:framelunch/docs.git ./$PROJECT_NAME
+cd ${WORKSHOP_DIR}
+git clone git@github.com:framelunch/docs.git ./${PROJECT_NAME}
+cd ${PROJECT_NAME}
 </code></pre>
 
-<h2 id="2-便利メソッドを登録">2. 便利メソッドを登録</h2>
+<div class="notices warning" ><p><strong>WORKSHOP_DIR</strong> は<strong>絶対パス</strong>で指定してください<br />
+カレントディレクトリの絶対パスは <code>pwd</code> で取得できます</p>
+</div>
 
-<p>下記の関数をあなたの「<strong>~/.bash_profile</strong>」に追記してください。<br />
-Makefileに登録されている便利関数を、どこにいても利用できるようになります。<br />
-(以降の説明は下記を追記している前提で進みます)</p>
 
-<pre><code class="language-bash"># TODO your path to docs project.
-export DOCS_PATH=/path/to/docs/project
-function docs(){
-  cd $DOCS_PATH;
-  source ./.env
-  
-  docker-compose up -d
-  case $1 in
-    build ) make id=$2;;
-    preview ) make preview id=$2;;
-    new ) make project id=$2;;
-    upd ) make update id=$2;;
-  esac
-}
+<h2 id="3-コマンドをインストール">3. コマンドをインストール</h2>
+
+<p>docsコマンドを利用できるようにします</p>
+
+<pre><code class="language-bash">make
 </code></pre>
 
-<p>設定後は <code>source ~/.bash_profile</code> をお忘れなく！</p>
+<div class="notices tip" ><p>アンインストールは <code>make uninstall</code> です<br />
+インストール時に <code>/usr/local/bin/docs</code> にコマンドのシンボリックリンクを作成しているので<br />
+それを削除しているだけです。</p>
+</div>
 
-<h2 id="3-docker-compose-override-yml-を作りましょう">3. 「docker-compose.override.yml」を作りましょう</h2>
 
-<pre><code class="language-bash">cd $DOCS_PATH
-cp -f .docker-compose.override.sample.yml .docker-compose.override.yml
+<h2 id="4-試しにコマンドのusageを表示してみましょう">4. 試しにコマンドのUsageを表示してみましょう</h2>
+
+<pre><code class="language-bash">docs
+</code></pre>
+
+<p>下記のような説明が表示されるはずです。</p>
+
+<pre><code class="language-bash">HOW TO USE ...
+
+    Usage:
+        docs [Command] [Command Arguments]
+        ※ [Command Arguments]の先頭に ! が付いているものは必須パラメータです
+
+    Command:
+        ##### 設定を行う #####
+        # Current Documentの切り替え
+        switch -i [! Document ID]
+
+        # Document設定の削除
+        remove -i [! Document ID]
+
+        ##### ドキュメントを作る #####
+        # 新しいドキュメントを作る
+        new -i [! Document ID] -w [! Document work directory(Mark Downを置くディレクトリ)] -b [! Document build directory(Web Rootディレクトリ)]
+
+        # 既存のローカルにあるドキュメントを追加する
+        add -i [! Document ID] -w [! Document work directory(Mark Downを置くディレクトリ)] -b [! Document build directory(Web Rootディレクトリ)]
+
+        # new, add コマンドで指定した設定の更新
+        configure -i [! Document ID] -w [Document work directory(Mark Downを置くディレクトリ)] -b [Document build directory(Web Rootディレクトリ)]
+
+        # ドキュメントに新しいページを追加する
+        post -p [! ページのファイルパス (例: _index.md, /news/_index.md, /news/page-1.md)]
+
+        ##### ドキュメントを見る #####
+        preview -i [Document ID]
+
+        ##### ドキュメントを出力する #####
+        build -i [Document ID]
+
+        ##### その他 #####
+        # Docs の Dockerを再起動します
+        reboot -f [付けると強制的にダウンしてから再起動]
 </code></pre>
 
 
@@ -607,20 +648,20 @@ cp -f .docker-compose.override.sample.yml .docker-compose.override.yml
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/docs/js/clipboard.min.js?1520429556"></script>
-    <script src="/docs/js/perfect-scrollbar.min.js?1520429556"></script>
-    <script src="/docs/js/perfect-scrollbar.jquery.min.js?1520429556"></script>
-    <script src="/docs/js/jquery.sticky.js?1520429556"></script>
-    <script src="/docs/js/featherlight.min.js?1520429556"></script>
-    <script src="/docs/js/html5shiv-printshiv.min.js?1520429556"></script>
-    <script src="/docs/js/highlight.pack.js?1520429556"></script>
+    <script src="/docs/js/clipboard.min.js?1521414725"></script>
+    <script src="/docs/js/perfect-scrollbar.min.js?1521414725"></script>
+    <script src="/docs/js/perfect-scrollbar.jquery.min.js?1521414725"></script>
+    <script src="/docs/js/jquery.sticky.js?1521414725"></script>
+    <script src="/docs/js/featherlight.min.js?1521414725"></script>
+    <script src="/docs/js/html5shiv-printshiv.min.js?1521414725"></script>
+    <script src="/docs/js/highlight.pack.js?1521414725"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/docs/js/modernizr.custom.71422.js?1520429556"></script>
-    <script src="/docs/js/learn.js?1520429556"></script>
-    <script src="/docs/js/hugo-learn.js?1520429556"></script>
+    <script src="/docs/js/modernizr.custom.71422.js?1521414725"></script>
+    <script src="/docs/js/learn.js?1521414725"></script>
+    <script src="/docs/js/hugo-learn.js?1521414725"></script>
 
-    <link href="/docs/mermaid/mermaid.css?1520429556" type="text/css" rel="stylesheet" />
-    <script src="/docs/mermaid/mermaid.js?1520429556"></script>
+    <link href="/docs/mermaid/mermaid.css?1521414725" type="text/css" rel="stylesheet" />
+    <script src="/docs/mermaid/mermaid.js?1521414725"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

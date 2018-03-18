@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Docs Builder on Docs</title>
+    <title>Docs Manager on Docs</title>
     <link>https://framelunch.github.io/docs/</link>
-    <description>Recent content in Docs Builder on Docs</description>
+    <description>Recent content in Docs Manager on Docs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Tue, 06 Mar 2018 02:24:46 +0000</lastBuildDate>
@@ -29,11 +29,17 @@ CONFIGの編集 各プロジェクトの config.toml を編集する
       <pubDate>Tue, 06 Mar 2018 02:24:46 +0000</pubDate>
       
       <guid>https://framelunch.github.io/docs/install/page-1/</guid>
-      <description>1. ソースファイルの取得 WORKSPACE_DIR=インストールするディレクトリ PROJECT_NAME=docs cd $WORKSPACE_DIR git clone git@github.com:framelunch/docs.git ./$PROJECT_NAME  2. 便利メソッドを登録 下記の関数をあなたの「~/.bash_profile」に追記してください。
-Makefileに登録されている便利関数を、どこにいても利用できるようになります。
-(以降の説明は下記を追記している前提で進みます)
-# TODO your path to docs project. export DOCS_PATH=/path/to/docs/project function docs(){ cd $DOCS_PATH; source ./.env docker-compose up -d case $1 in build ) make id=$2;; preview ) make preview id=$2;; new ) make project id=$2;; upd ) make update id=$2;; esac }  設定後は source ~/.bash_profile をお忘れなく！
-3. 「docker-compose.override.yml」を作りましょう cd $DOCS_PATH cp -f .</description>
+      <description>1. Docker for Macをインストールしましょう 最新のDockerが利用できるEdge版 の
+Docker for Mac をインストールしましょう
+※ Stable版が入っている人はそのままでいいです
+2. ソースファイルの取得 WORKSHOP_DIR=インストールするディレクトリパス PROJECT_NAME=docs cd ${WORKSHOP_DIR} git clone git@github.com:framelunch/docs.git ./${PROJECT_NAME} cd ${PROJECT_NAME}  WORKSHOP_DIR は絶対パスで指定してください
+カレントディレクトリの絶対パスは pwd で取得できます
+ 3. コマンドをインストール docsコマンドを利用できるようにします
+make  アンインストールは make uninstall です
+インストール時に /usr/local/bin/docs にコマンドのシンボリックリンクを作成しているので
+それを削除しているだけです。
+ 4. 試しにコマンドのUsageを表示してみましょう docs  下記のような説明が表示されるはずです。
+HOW TO USE ... Usage: docs [Command] [Command Arguments] ※ [Command Arguments]の先頭に ! が付いているものは必須パラメータです Command: ##### 設定を行う ##### # Current Documentの切り替え switch -i [!</description>
     </item>
     
     <item>
@@ -51,20 +57,13 @@ Makefileに登録されている便利関数を、どこにいても利用でき
       <pubDate>Tue, 06 Mar 2018 02:24:46 +0000</pubDate>
       
       <guid>https://framelunch.github.io/docs/install/page-2/</guid>
-      <description>早速、サンプルプロジェクトのドキュメントを作成する流れを説明します。
-まずは「どこにドキュメントを配置するのか」を設定しましょう。
-1. プロジェクトのIDを決めましょう 今回のプロジェクトIDは「 sample 」とします
-(どこかに sample というプロジェクトディレクトリを作っておいてください)
-2. MarkDownファイル等を配置する場所を指定しましょう 記述するファイルは、先ほどコピーした docker-compose.override.yml ファイルです。
-このファイルの最下部に例に倣って追記します。
-こんな感じです。
-- ../your/sample/project/docs-src:/usr/local/docs/sample  「:」で区切って、
-左辺は Host(Mac)のMarkDownファイル等を配置するパス
-右辺は 「/usr/local/docs/プロジェクトID」
- 3. 静的サイトのビルド先を指定しましょう 公開されるドキュメントのWebRootをビルド先を指定します。
-- type: bind source: ../your/sample/project/docs target: /usr/local/docs/sample/public  source: 静的サイトのWeb Rootパス
-target: /usr/local/docs/プロジェクトID/public
- 編集したソースの全体図 version: &amp;quot;3.5&amp;quot; services: docs: volumes: # --- ビルド先と作業ディレクトリを指定していく(自分の環境に合わせる) --- # docs - ./docs-src:/usr/local/docs/docs - type: bind source: ./docs target: /usr/local/docs/docs/public # ======= 以降 追記した部分です ======= # sample - .</description>
+      <description> 早速、サンプルプロジェクトのドキュメントを作成する流れを説明します。
+まずは「どこにドキュメントを配置するのか」を決めましょう。
+1. DocumentのIDを決めましょう 今回は、Document IDを「 sample 」とします
+一緒に作成しましょう。
+cd ${WORKSHOP_DIR} DOCUMENT_ID=sample SAMPLE_PROJECT_DIR=${WORKSHOP_DIR}/${DOCUMENT_ID} mkdir -p ${SAMPLE_PROJECT_DIR}  2. MarkDownファイル等を配置する場所を決めましょう 今回は「 ${SAMPLE_PROJECT_DIR}/docs-src 」とします
+WORK_DIR=${SAMPLE_PROJECT_DIR}/docs-src  3. Documentのビルド先を指定しましょう 今回は「 ${SAMPLE_PROJECT_DIR}/docs 」とします
+BUILD_DIR=${SAMPLE_PROJECT_DIR}/docs  4. 意図した設定になっているか確認しましょう cat &amp;lt;&amp;lt;- EOF SAMPLE_PROJECT_DIR: ${SAMPLE_PROJECT_DIR} DOCUMENT_ID: ${DOCUMENT_ID} WORK_DIR: ${WORK_DIR} BUILD_DIR: ${BUILD_DIR} EOF  </description>
     </item>
     
     <item>
@@ -84,14 +83,15 @@ target: /usr/local/docs/プロジェクトID/public
       
       <guid>https://framelunch.github.io/docs/install/page-3/</guid>
       <description>実際にソースファイルを作成していきます。
-1. ソースファイルのひな形を生成します PROJECT_ID=sample docs new $PROJECT_ID  成功すると先ほど指定したソースファイル置き場にファイルが作成されています。
-graph LR; A[sample project] -- |MarkDown置き場| B A[sample project] -- |静的サイトWebRoot| C A[sample project] -- |その他省略| D B[content] C[public] D[other]  2. 早速コンテンツを配置してみましょう 指定したソースファイル置き場の「content」ディレクトリに
-ファイル「_index.md」を作成し、下記をコピペしてください。
-+++ date = &amp;quot;2018-03-06T02:24:46Z&amp;quot; title = &amp;quot;Top&amp;quot; +++ {{% notice tip %}} **HELLO WORLD !!!** {{% /notice %}}  静的サイトのコンテンツ(Mark Downファイル)は
-全てこの「content」ディレクトリに配置します
- 3. サーバー上で確認しながらコンテンツを充実させましょう 下記のコマンドで簡易的なWebサーバーを立ち上げて
-http://localhost:1313 にアクセスしましょう
-PROJECT_ID=sample docs preview $PROJECT_ID  HELLO WORLD できたでしょうか？</description>
+1. ソースファイルのひな形を生成します docs new -i ${DOCUMENT_ID} -w ${WORK_DIR} -b ${BUILD_DIR}  成功すると ${WORK_DIR} に下記のようなひな形が作成されます
+graph LR; A[WORK_DIR] -- |MarkDown置き場| B A[WORK_DIR] -- |ビルド結果| C A[WORK_DIR] -- |その他省略| D B[content] C[public] D[other]  Docs Managerの command/config 以下に設定ファイルが作成されます。
+同時に .env ファイル の内容が、今作成した設定ファイルと同じものになっています。
+この .env ファイルの内容が、カレントドキュメント(今指定されているDocument) です。
+コマンドでドキュメントを指定しない場合は、この カレントドキュメント を自動で対象にします。
+複数の設定ファイルがある場合は switchコマンド によって カレントドキュメント を切り替えます。
+ 2. 早速コンテンツを配置してみましょう 下記の3ファイルを配置してみましょう
+ _index.md (Topページ) news/_index.md (/news/ ページ) news/page-1.md (/news/ コンテンツ1)  下記を1行ずつ実行します。
+docs post -p _index.</description>
     </item>
     
   </channel>

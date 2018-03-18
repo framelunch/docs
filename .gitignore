@@ -152,5 +152,7 @@ $RECYCLE.BIN/
 /.idea
 /flow-typed
 
-docker-compose.override.yml
+.env
+command/config/
+command/error.log
 public/

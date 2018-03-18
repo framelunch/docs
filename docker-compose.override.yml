@@ -1,0 +1,7 @@
+version: "3.5"
+
+services:
+
+  docs:
+    volumes:
+      - ${CURRENT_WORK_DIR}:${CONTAINER_WORK_DIR}/${CURRENT_PROJECT_ID}

@@ -14,12 +14,17 @@ cd $WORKSPACE_DIR
 git clone git@github.com:framelunch/docs.git ./$PROJECT_NAME
 ```
 
-## 2. 便利メソッドを登録
-下記の関数をあなたの「**~/.bash_profile**」に追記してください。  
-Makefileに登録されている便利関数を、どこにいても利用できるようになります。  
-(以降の説明は下記を追記している前提で進みます)
+## 2. コマンドをインストール
+Documentを扱う便利コマンドのシンボリックリンクを  
+`/usr/local/bin/docs` に登録します。
 
 ```bash
+DOCS_PATH=/path/to/docs/project
+cd ${DOCS_PATH}
+sh utils/install.sh
+
+
+
 # TODO your path to docs project.
 export DOCS_PATH=/path/to/docs/project
 function docs(){
@@ -28,10 +33,16 @@ function docs(){
   
   docker-compose up -d
   case $1 in
-    build ) make id=$2;;
-    preview ) make preview id=$2;;
-    new ) make project id=$2;;
-    upd ) make update id=$2;;
+    init ) bash utils/initialize.sh -c $2 -i $3 -w $4 -b $5;;
+    config ) bash utils/config.sh -c $2 -i $3 -w $4 -b $5;;
+    config ) make configure id="$2" work_dir="$3" build_dir="$4";;
+    switch ) make switch id="$2";;
+    build ) make;;
+    preview ) make preview;;
+    new ) make project;;
+    post ) make post post_path="$2";;
+    reboot ) make reboot;;
+    * ) echo "unexpected command.";;
   esac
 }
 ```

@@ -1,14 +1,8 @@
-id=""
--include $(CURDIR)/.env
-
 _:
-	bash utils/build.sh $(CONTAINER_NAME) $(id)
+	make install
 
-preview:
-	bash utils/server.sh $(CONTAINER_NAME) $(id)
+install:
+	bash utils/install.sh
 
-project:
-	bash utils/new-project.sh $(CONTAINER_NAME) $(id)
-
-update:
-	bash utils/update.sh $(CONTAINER_NAME) $(id)
+uninstall:
+	bash utils/install.sh

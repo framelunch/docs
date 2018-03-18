@@ -1,10 +1,11 @@
-# baseURL = "https://framelunch.github.io/docs/"
-baseURL = "https://localhost/"
+baseURL = "https://framelunch.github.io/docs/"
+# baseURL = "https://localhost/"
 languageCode = "en"
 defaultContentLanguage = "en"
 title = "Docs"
 theme = "default"
 enableEmoji = "true"
+buildDrafts = "true"
 
 [outputs]
   home = [ "HTML", "RSS", "JSON"]

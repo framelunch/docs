@@ -4,6 +4,7 @@ defaultContentLanguage = "en"
 title = "Docs"
 theme = "default"
 enableEmoji = "true"
+buildDrafts = "true"
 
 [outputs]
   home = [ "HTML", "RSS", "JSON"]

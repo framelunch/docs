@@ -28,11 +28,18 @@
 	"content": " 早速、サンプルプロジェクトのドキュメントを作成する流れを説明します。\nまずは「どこにドキュメントを配置するのか」を決めましょう。\n1. DocumentのIDを決めましょう 今回は、Document IDを「 sample 」とします\n一緒に作成しましょう。\ncd ${WORKSHOP_DIR} DOCUMENT_ID=sample SAMPLE_PROJECT_DIR=${WORKSHOP_DIR}/${DOCUMENT_ID} mkdir -p ${SAMPLE_PROJECT_DIR}  2. MarkDownファイル等を配置する場所を決めましょう 今回は「 ${SAMPLE_PROJECT_DIR}/docs-src 」とします\nWORK_DIR=${SAMPLE_PROJECT_DIR}/docs-src  3. Documentのビルド先を指定しましょう 今回は「 ${SAMPLE_PROJECT_DIR}/docs 」とします\nBUILD_DIR=${SAMPLE_PROJECT_DIR}/docs  4. 意図した設定になっているか確認しましょう cat \u0026lt;\u0026lt;- EOF SAMPLE_PROJECT_DIR: ${SAMPLE_PROJECT_DIR} DOCUMENT_ID: ${DOCUMENT_ID} WORK_DIR: ${WORK_DIR} BUILD_DIR: ${BUILD_DIR} EOF  "
 },
 {
+	"uri": "https://framelunch.github.io/docs/reference/page-2/",
+	"title": "MENUの並び順をコントロールする",
+	"tags": [],
+	"description": "",
+	"content": "今後書く\n"
+},
+{
 	"uri": "https://framelunch.github.io/docs/tools/page-2/",
 	"title": "learn",
 	"tags": [],
 	"description": "",
-	"content": " Links 記事を書く時によく見るリンクとか追記していく\n素敵Notice 感動Chart "
+	"content": " Links 記事を書く時によく見るリンクとか追記していく\nNotice Chart "
 },
 {
 	"uri": "https://framelunch.github.io/docs/install/page-3/",
@@ -40,6 +47,13 @@
 	"tags": [],
 	"description": "",
 	"content": " 実際にソースファイルを作成していきます。\n1. ソースファイルのひな形を生成します docs new -i ${DOCUMENT_ID} -w ${WORK_DIR} -b ${BUILD_DIR}  成功すると ${WORK_DIR} に下記のようなひな形が作成されます\ngraph LR; A[WORK_DIR] -- |MarkDown置き場| B A[WORK_DIR] -- |ビルド結果| C A[WORK_DIR] -- |テーマファイル| D A[WORK_DIR] -- |その他省略| E B[content] C[public] D[themes] E[other]  Docs Managerの command/config 以下に設定ファイルが作成されます。\n同時に .env ファイル の内容が、今作成した設定ファイルと同じものになっています。\nこの .env ファイルの内容が、カレントドキュメント(今指定されているDocument) です。\nコマンドでドキュメントを指定しない場合は、この カレントドキュメント を自動で対象にします。\n複数の設定ファイルがある場合は switchコマンド によって カレントドキュメント を切り替えます。\n 2. 早速コンテンツを配置してみましょう 下記の3ファイルを配置してみましょう\n _index.md (Topページ) news/_index.md (/news/ ページ) news/page-1.md (/news/ コンテンツ1)  下記を1行ずつ実行します。\ndocs post -p _index.md\ndocs post -p news/_index.md\ndocs post -p news/page-1.md\n${WORK_DIR} の contentディレクトリ に作成されます。\n 作成されたページに目印を追記してみてください {{% notice note %}} Topページ {{% /notice %}}  {{% notice tip %}} NewsのTopページ {{% /notice %}}  {{% notice warning %}} Newsコンテンツ1 {{% /notice %}}  3. サーバー上でコンテンツを確認してみましょう 下記のコマンドで簡易的なWebサーバーを立ち上げて\ndocs preview  http://localhost:1313 にアクセスしましょう\n表示できたでしょうか？\n_index.md をさらに編集して、ファイルを保存してみてください。\n親切にも Auto Reload 機能が付いているので\n快適に編集できますね。\n 4. 静的サイトをビルドしましょう docs build  成功すると ${BUILD_DIR} にビルドされています。\nGitHubなら、これをpushして(ちょっと設定して)あげればドキュメントが公開できます。\nDockerを利用すれば、ドキュメント用のWebサーバーを立ち上げることも\n簡単にできますが、、、その説明はまたいずれ。\nもっと知りたい人は HUGO や 利用しているテーマ についての情報をここにまとめていきます。\nみなさんも是非追記してくださいね！\n"
+},
+{
+	"uri": "https://framelunch.github.io/docs/install/page-4/",
+	"title": "まとめ",
+	"tags": [],
+	"description": "",
+	"content": " 書き始める new して docs new -i ${DOCUMENT_ID} -w ${WORK_DIR} -b ${BUILD_DIR}\npost して docs post -p _index.md\nエディタで書く 見る docs preview\nビルド docs build\n別Documentに切り替える docs switch -i ${DOCUMENT_ID}\n"
 },
 {
 	"uri": "https://framelunch.github.io/docs/",

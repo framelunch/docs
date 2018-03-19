@@ -67,13 +67,22 @@ BUILD_DIR=${SAMPLE_PROJECT_DIR}/docs  4. 意図した設定になっているか
     </item>
     
     <item>
+      <title>MENUの並び順をコントロールする</title>
+      <link>https://framelunch.github.io/docs/reference/page-2/</link>
+      <pubDate>Tue, 06 Mar 2018 02:24:46 +0000</pubDate>
+      
+      <guid>https://framelunch.github.io/docs/reference/page-2/</guid>
+      <description>今後書く</description>
+    </item>
+    
+    <item>
       <title>learn</title>
       <link>https://framelunch.github.io/docs/tools/page-2/</link>
       <pubDate>Tue, 06 Mar 2018 02:24:46 +0000</pubDate>
       
       <guid>https://framelunch.github.io/docs/tools/page-2/</guid>
       <description> Links 記事を書く時によく見るリンクとか追記していく
-素敵Notice 感動Chart </description>
+Notice Chart </description>
     </item>
     
     <item>
@@ -91,6 +100,19 @@ graph LR; A[WORK_DIR] -- |MarkDown置き場| B A[WORK_DIR] -- |ビルド結果| 
 複数の設定ファイルがある場合は switchコマンド によって カレントドキュメント を切り替えます。
  2. 早速コンテンツを配置してみましょう 下記の3ファイルを配置してみましょう
  _index.md (Topページ) news/_index.md (/news/ ページ) news/page-1.md (/news/ コンテンツ1)  下記を1行ずつ実行します。</description>
+    </item>
+    
+    <item>
+      <title>まとめ</title>
+      <link>https://framelunch.github.io/docs/install/page-4/</link>
+      <pubDate>Mon, 19 Mar 2018 00:15:02 +0000</pubDate>
+      
+      <guid>https://framelunch.github.io/docs/install/page-4/</guid>
+      <description>書き始める new して docs new -i ${DOCUMENT_ID} -w ${WORK_DIR} -b ${BUILD_DIR}
+post して docs post -p _index.md
+エディタで書く 見る docs preview
+ビルド docs build
+別Documentに切り替える docs switch -i ${DOCUMENT_ID}</description>
     </item>
     
   </channel>

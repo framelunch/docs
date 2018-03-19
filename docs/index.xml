@@ -33,13 +33,18 @@ CONFIGの編集 各プロジェクトの config.toml を編集する
 Docker for Mac をインストールしましょう
 ※ Stable版が入っている人はそのままでいいです
 2. ソースファイルの取得 WORKSHOP_DIR=インストールするディレクトリパス PROJECT_NAME=docs cd ${WORKSHOP_DIR} git clone git@github.com:framelunch/docs.git ./${PROJECT_NAME} cd ${PROJECT_NAME}  WORKSHOP_DIR は絶対パスで指定してください
+&amp;nbsp;
 カレントディレクトリの絶対パスは pwd で取得できます
+だから、取得したいところに cd で移動して
+WORKSHOP_DIR=$(pwd) ってやるのが良さそう
+&amp;nbsp;
+echo ${WORKSHOP_DIR} で変数の中身が確認できます
  3. コマンドをインストール docsコマンドを利用できるようにします
 make  アンインストールは make uninstall です
 インストール時に /usr/local/bin/docs にコマンドのシンボリックリンクを作成しているので
 それを削除しているだけです。
  4. 試しにコマンドのUsageを表示してみましょう docs  下記のような説明が表示されるはずです。
-HOW TO USE ... Usage: docs [Command] [Command Arguments] ※ [Command Arguments]の先頭に ! が付いているものは必須パラメータです Command: ##### 設定を行う ##### # Current Documentの切り替え switch -i [!</description>
+HOW TO USE ... Usage: docs [Command] [Command Arguments] ※ [Command Arguments]の先頭に !</description>
     </item>
     
     <item>

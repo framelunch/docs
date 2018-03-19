@@ -22,7 +22,12 @@ cd ${PROJECT_NAME}
 
 {{% notice warning %}}
 **WORKSHOP_DIR** は**絶対パス**で指定してください  
-カレントディレクトリの絶対パスは `pwd` で取得できます
+&nbsp;  
+カレントディレクトリの絶対パスは `pwd` で取得できます  
+だから、取得したいところに `cd` で移動して  
+`WORKSHOP_DIR=$(pwd)` ってやるのが良さそう  
+&nbsp;  
+`echo ${WORKSHOP_DIR}`  で変数の中身が確認できます
 {{% /notice %}}
 
 ## 3. コマンドをインストール
